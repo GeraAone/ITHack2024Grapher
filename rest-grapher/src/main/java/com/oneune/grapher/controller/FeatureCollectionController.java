@@ -20,10 +20,10 @@ public class FeatureCollectionController {
     private final BlueFeatureCollectionParsingService blueFeatureCollectionParsingService;
 
     @PostMapping("red/{filename}")
-    public void parseRedFeaturesCollection(@PathVariable String filename) {
+    public RedFeatureCollectionDto parseRedFeaturesCollection(@PathVariable String filename) {
         RedFeatureCollectionDto redFeatureCollection =
                 this.redFeatureCollectionParsingService.parseRedFeatureCollectionFile(filename);
-        String testBreakPoint = "";
+        return redFeatureCollection;
     }
 
     @PostMapping("blue/{filename}")
