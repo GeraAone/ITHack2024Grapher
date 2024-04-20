@@ -27,10 +27,8 @@ public class FeatureCollectionController {
     }
 
     @PostMapping("blue/{filename}")
-    public void parseBlueFeaturesCollection(@PathVariable String filename) {
-        BlueFeatureCollectionDto blueFeatureCollectionDto =
-                this.blueFeatureCollectionParsingService.parseGeoJsonFile(filename);
-        String testBreakPoint = "";
+    public BlueFeatureCollectionDto parseBlueFeaturesCollection(@PathVariable String filename) {
+        return this.blueFeatureCollectionParsingService.parseGeoJsonFile(filename);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.oneune.grapher.service.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oneune.grapher.service.ResourceFileLoader;
 import com.oneune.grapher.store.dto.blue.BlueFeatureCollectionDto;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,14 @@ import java.io.File;
 public class BlueFeatureCollectionParsingService {
     private final ObjectMapper objectMapper;
 
-    public BlueFeatureCollectionDto parseGeoJsonFile(@NonNull String filePath) {
+    private final ResourceFileLoader resourceFileLoader;
+
+    public BlueFeatureCollectionDto parseGeoJsonFile(@NonNull String geoJsonFilename) {
+
+        File datasetFile = resourceFileLoader.getDatasetFileFromResources(geoJsonFilename);
+
         try {
-            File file = new File(filePath);
-            return objectMapper.readValue(file, BlueFeatureCollectionDto.class);
+            return objectMapper.readValue(datasetFile, BlueFeatureCollectionDto.class);
         } catch (Exception e) {
             log.error("Ошибка парсинга файла: " + e.getMessage());
             throw new RuntimeException("Invalid path name!");
