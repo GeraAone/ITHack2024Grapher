@@ -11,6 +11,7 @@ import com.oneune.grapher.store.dto.green.GreenFeatureDto;
 import com.oneune.grapher.store.dto.green.GreenFeaturePropertiesDto;
 import com.oneune.grapher.store.dto.red.RedFeatureCollectionDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class GreenMapperService {
 
     private final RedFeatureCollectionParsingService redFeatureCollectionParsingService;
 
+    @Cacheable(value = "greenDataset", key = "#blueFilename + '_' + redFilename")
     public GreenFeatureCollectionDto generateGreenDto(String blueFilename, String redFilename) {
         BlueFeatureCollectionDto blueFeatureCollectionDto =
                 this.blueFeatureCollectionParsingService.parseGeoJsonFile(blueFilename);
