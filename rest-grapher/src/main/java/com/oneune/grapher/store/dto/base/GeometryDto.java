@@ -1,14 +1,16 @@
-package com.oneune.grapher.store.dto.blue;
+package com.oneune.grapher.store.dto.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BlueCrsDto {
+public class GeometryDto {
     private String type;
-    private BlueCrsPropertiesDto properties;
+    private List<List<List<Double>>> coordinates;
 }

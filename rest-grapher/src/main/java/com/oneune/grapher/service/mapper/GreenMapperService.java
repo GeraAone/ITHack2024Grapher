@@ -2,6 +2,7 @@ package com.oneune.grapher.service.mapper;
 
 import com.oneune.grapher.service.parser.BlueFeatureCollectionParsingService;
 import com.oneune.grapher.service.parser.RedFeatureCollectionParsingService;
+import com.oneune.grapher.store.dto.base.GeometryDto;
 import com.oneune.grapher.store.dto.blue.BlueFeatureCollectionDto;
 import com.oneune.grapher.store.dto.blue.BlueGeometryDto;
 import com.oneune.grapher.store.dto.green.GreenFeaturePropertiesDto;
@@ -27,7 +28,7 @@ public class GreenMapperService {
         RedFeatureCollectionDto redFeatureCollectionDto =
                 this.redFeatureCollectionParsingService.parseRedFeatureCollectionFile(redFilename);
 
-        List<BlueGeometryDto> greenGeometryDtoList = new ArrayList<>();
+        List<GeometryDto> greenGeometryDtoList = new ArrayList<>();
         GreenFeaturePropertiesDto greenFeaturePropertiesDto = new GreenFeaturePropertiesDto();
         blueFeatureCollectionDto.getFeatures().stream().forEach(feat -> greenGeometryDtoList.add(feat.getGeometry()));
         redFeatureCollectionDto.getFeatures().stream().forEach(feat -> greenFeaturePropertiesDto.setGeomLengthM(feat.getProperties().getGeomLengthM()));

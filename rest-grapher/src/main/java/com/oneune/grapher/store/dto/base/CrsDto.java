@@ -1,4 +1,5 @@
-package com.oneune.grapher.store.dto.green;
+package com.oneune.grapher.store.dto.base;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class GreenCrsDto {
+public class CrsDto {
     private String type;
-    private GreenCrsPropertiesDto properties;
+    private CrsPropertiesDto properties;
 }

@@ -1,15 +1,16 @@
 package com.oneune.grapher.store.dto.green;
 
-import com.oneune.grapher.store.dto.blue.BlueGeometryDto;
+import com.oneune.grapher.store.dto.base.supeclass.AbstractFeatureDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class GreenFeatureDto {
-    private String type;
+@EqualsAndHashCode(callSuper = true)
+public class GreenFeatureDto extends AbstractFeatureDto {
     private GreenFeaturePropertiesDto properties;
-    private BlueGeometryDto geometry;
 }

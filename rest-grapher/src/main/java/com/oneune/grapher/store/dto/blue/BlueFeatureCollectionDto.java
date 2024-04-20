@@ -1,7 +1,9 @@
 package com.oneune.grapher.store.dto.blue;
 
+import com.oneune.grapher.store.dto.base.supeclass.AbstractFeatureCollectionDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -10,9 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BlueFeatureCollectionDto {
-    private String type;
-    private String name;
-    private BlueCrsDto crs;
+@EqualsAndHashCode(callSuper = true)
+public class BlueFeatureCollectionDto extends AbstractFeatureCollectionDto {
     private List<BlueFeatureDto> features;
 }
