@@ -1,0 +1,18 @@
+<div style="position: relative;">
+  <div style="position: absolute; top: 0; left: 0;">
+    <img src="assets/source-graph-images/graph-image-example.jpg"
+         alt="Image not loaded..."
+         [style.height.px]="imageProperties.height"
+         [style.width.px]="imageProperties.width"
+    >
+  </div>
+  <div style="position: absolute; top: 0; left: 0;">
+    <app-graph [graph]="processingGraph"
+               [mode]="GraphComponentModeEnum.VARIABLE"
+               [graphContainerProperties]="graphProperties"
+               (click)="addNode($event)"
+               (onClickNode)="chooseNode($event)"
+               (onClickLink)="chooseLink($event)"
+    ></app-graph>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: grapher
+
+server:
+  port: 8090
+
+resource:
+  geo:
+    dataset:
+      path: "geo/datasets"
+
+

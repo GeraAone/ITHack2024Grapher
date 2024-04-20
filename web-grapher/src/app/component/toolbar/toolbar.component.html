@@ -1,0 +1,42 @@
+<p-toolbar id="mainToolbar">
+
+  <div class="toolbar">
+
+    <p-button icon="pi pi-user"
+              pTooltip="Authorize..."
+              severity="secondary"
+              [text]="true"
+    ></p-button>
+
+    <p-button icon="pi pi-file-arrow-up"
+              pTooltip="Start mapping..."
+              severity="secondary"
+              [text]="true"
+              (click)="startMapping()"
+    ></p-button>
+
+    <p-button icon="pi pi-list"
+              pTooltip="Open uploaded standard images table..."
+              severity="secondary"
+              [text]="true"
+              (click)="openStandardImagesTable()"
+    ></p-button>
+
+    <p-button icon="pi pi-question"
+              pTooltip="Do you need help?"
+              severity="secondary"
+              [text]="true"
+              (onClick)="openHelpPage()"
+    ></p-button>
+
+  </div>
+</p-toolbar>
+
+
+<p-confirmDialog key="confirm-saving-images"
+                 icon="pi pi-exclamation-triangle"
+                 header="Confirmation"
+                 message="Are you sure?"
+                 [closable]="false"
+></p-confirmDialog>
+

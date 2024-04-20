@@ -1,0 +1,18 @@
+
+// TODO: delete ng-deep
+
+::ng-deep p-toolbar div {
+  padding: 10px;
+}
+
+.toolbar {
+  width: 100%;
+  padding: 5px;
+  gap: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep .p-button .pi {
+  font-size: 24px;
+}
