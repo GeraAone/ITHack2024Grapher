@@ -8,11 +8,13 @@ import com.oneune.grapher.store.dto.blue.BlueFeatureCollectionDto;
 import com.oneune.grapher.store.dto.green.GreenFeatureCollectionDto;
 import com.oneune.grapher.store.dto.red.RedFeatureCollectionDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("feature-collection")
 @RequiredArgsConstructor
+@Log4j2
 public class FeatureCollectionController {
 
     private final RedFeatureCollectionParsingService redFeatureCollectionParsingService;
@@ -35,7 +37,8 @@ public class FeatureCollectionController {
     @PostMapping("green")
     public GreenFeatureCollectionDto getGreenFeaturesCollection(@RequestParam String blueFilename,
                                                                 @RequestParam String redFilename) {
-        return this.greenMapperService.generateGreenDto(blueFilename, redFilename);
+        GreenFeatureCollectionDto greenFeatureCollectionDto = this.greenMapperService.generateGreenDto(blueFilename, redFilename);
+        return greenFeatureCollectionDto;
     }
 
 }
