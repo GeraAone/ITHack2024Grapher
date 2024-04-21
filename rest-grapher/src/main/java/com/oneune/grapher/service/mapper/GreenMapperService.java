@@ -1,6 +1,7 @@
 package com.oneune.grapher.service.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oneune.grapher.service.ResourceFileService;
 import com.oneune.grapher.service.parser.BlueFeatureCollectionParsingService;
 import com.oneune.grapher.service.parser.RedFeatureCollectionParsingService;
 import com.oneune.grapher.store.dto.base.CrsDto;
@@ -50,7 +51,7 @@ public class GreenMapperService {
                 .builder().type("FeatureCollection").name("kaliningrad_region_4326").crs(crsDto).build();
         greenFeatureCollectionDto.setFeatures(new ArrayList<>());
 
-        fillGreenFeatureCollectionByBlue(greenFeatureCollectionDto, blueFeatureCollectionDto);
+        fillGreenFeatureCollectionByBlue(greenFeatureCollectionDto, blueFeatureCollectionDto, redFeatureCollectionDto);
         fillGreenFeatureCollectionByRed(greenFeatureCollectionDto, redFeatureCollectionDto);
         this.resourceFileService.writeDatasetToResources("kaliningrad_green_WGS84.geojson", greenFeatureCollectionDto);
 
@@ -62,9 +63,9 @@ public class GreenMapperService {
                                                                       BlueFeatureCollectionDto blueFeatureCollectionDto, RedFeatureCollectionDto redFeatureCollectionDto) {
         blueFeatureCollectionDto.getFeatures().forEach(feat -> {
             GreenFeatureDto greenFeatureDto = new GreenFeatureDto();
-            greenFeatureDto.setType("MultiLineString");
+            greenFeatureDto.setType("Feature");
             greenFeatureDto.setGeometry(feat.getGeometry());
-//            greenFeatureDto.setProperties(checkRedBlueCoordinatesAndSetProperties(error ,greenFeatureDto.getGeometry(), redFeatureCollectionDto));
+            greenFeatureDto.setProperties(checkRedBlueCoordinatesAndSetProperties(error ,greenFeatureDto.getGeometry(), redFeatureCollectionDto));
             if(greenFeatureDto.getProperties() == null){
                 greenFeatureDto.setHasProperties(false);
             }
@@ -76,19 +77,19 @@ public class GreenMapperService {
                                                 RedFeatureCollectionDto redFeatureCollectionDto) {
     }
 
-//    public GreenFeaturePropertiesDto checkRedBlueCoordinatesAndSetProperties (Double error, GeometryDto blueGeometry,
-//                                                             RedFeatureCollectionDto redFeatureCollectionDto) {
-//        List<List<Double>> blueList = blueGeometry.getCoordinates().get(0);
-//            for(int i = 0; i < redFeatureCollectionDto.getFeatures().size(); i++) {
-//                List<List<Double>> redList = redFeatureCollectionDto.getFeatures().get(i).getGeometry().getCoordinates().get(0);
-//                IntStream.range(0, Math.min(redList.size(), blueList.size()))
-//                        .forEach(j -> {
-//                            if( Math.abs(redList.get(j).get(0) - blueList.get(j).get(0)) <= error
-//                                    && Math.abs(redList.get(j).get(1) - blueList.get(j).get(1)) <= error) {
-//                                return redFeatureCollectionDto.getFeatures().get(i).getProperties();
-//                            }
-//                        });
-//                return null;
-//            }
-//    }
+    public GreenFeaturePropertiesDto checkRedBlueCoordinatesAndSetProperties (Double error, GeometryDto blueGeometry,
+                                                             RedFeatureCollectionDto redFeatureCollectionDto) {
+        List<List<Double>> blueList = blueGeometry.getCoordinates().get(0);
+            for(int i = 0; i < redFeatureCollectionDto.getFeatures().size(); i++) {
+                List<List<Double>> redList = redFeatureCollectionDto.getFeatures().get(i).getGeometry().getCoordinates().get(0);
+                IntStream.range(0, Math.min(redList.size(), blueList.size()))
+                        .forEach(j -> {
+                            if( Math.abs(redList.get(j).get(0) - blueList.get(j).get(0)) <= error
+                                    && Math.abs(redList.get(j).get(1) - blueList.get(j).get(1)) <= error) {
+                                return redFeatureCollectionDto.getFeatures().get(i).getProperties();
+                            }
+                        });
+                return null;
+            }
+    }
 }
