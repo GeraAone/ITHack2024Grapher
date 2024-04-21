@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class GreenFeaturePropertiesDto extends RedFeaturePropertiesDto {
+    private int roadLengthM;
 }

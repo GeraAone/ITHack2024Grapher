@@ -10,4 +10,6 @@ resource:
     dataset:
       path: "geo/datasets"
 
+error: 0.001
+
 

@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class GreenFeatureDto extends AbstractFeatureDto {
     private GreenFeaturePropertiesDto properties;
+    private boolean hasProperties;
 }
