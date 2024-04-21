@@ -37,4 +37,5 @@ public class FeatureCollectionController {
                                                                 @RequestParam String redFilename) {
         return this.greenMapperService.generateGreenDto(blueFilename, redFilename);
     }
+
 }
