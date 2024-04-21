@@ -28,12 +28,11 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class GreenMapperService {
-    private final BlueFeatureCollectionParsingService blueFeatureCollectionParsingService;
 
-    private final ObjectMapper objectMapper;
+    private final BlueFeatureCollectionParsingService blueFeatureCollectionParsingService;
     private final RedFeatureCollectionParsingService redFeatureCollectionParsingService;
-    @Value("${resource.geo.dataset.path:#{null}}")
-    private String datasetsPrefixPath;
+    private final ResourceFileService resourceFileService;
+
 
     @Value("${error:#{null}}")
     private Double error;
@@ -50,15 +49,17 @@ public class GreenMapperService {
         GreenFeatureCollectionDto greenFeatureCollectionDto = GreenFeatureCollectionDto
                 .builder().type("FeatureCollection").name("kaliningrad_region_4326").crs(crsDto).build();
         greenFeatureCollectionDto.setFeatures(new ArrayList<>());
-        fillGreenFeatureCollection(greenFeatureCollectionDto, blueFeatureCollectionDto, redFeatureCollectionDto);
+
+        fillGreenFeatureCollectionByBlue(greenFeatureCollectionDto, blueFeatureCollectionDto);
         fillGreenFeatureCollectionByRed(greenFeatureCollectionDto, redFeatureCollectionDto);
-        wrapGreenGeoJsonFile(greenFeatureCollectionDto);
+        this.resourceFileService.writeDatasetToResources("kaliningrad_green_WGS84.geojson", greenFeatureCollectionDto);
+
         return greenFeatureCollectionDto;
     }
 
-    public GreenFeatureCollectionDto fillGreenFeatureCollection(GreenFeatureCollectionDto greenFeatureCollectionDto,
-                                                                BlueFeatureCollectionDto blueFeatureCollectionDto,
-                                                                RedFeatureCollectionDto redFeatureCollectionDto) {
+
+    public void fillGreenFeatureCollectionByBlue(GreenFeatureCollectionDto greenFeatureCollectionDto,
+                                                                      BlueFeatureCollectionDto blueFeatureCollectionDto, RedFeatureCollectionDto redFeatureCollectionDto) {
         blueFeatureCollectionDto.getFeatures().forEach(feat -> {
             GreenFeatureDto greenFeatureDto = new GreenFeatureDto();
             greenFeatureDto.setType("MultiLineString");
@@ -69,25 +70,10 @@ public class GreenMapperService {
             }
             greenFeatureCollectionDto.getFeatures().add(greenFeatureDto);
         });
-        return greenFeatureCollectionDto;
     }
 
-    public GreenFeatureCollectionDto fillGreenFeatureCollectionByRed(GreenFeatureCollectionDto greenFeatureCollectionDto,
-                                                                      RedFeatureCollectionDto redFeatureCollectionDto) {
-        return greenFeatureCollectionDto;
-    }
-
-    public void wrapGreenGeoJsonFile(GreenFeatureCollectionDto greenFeatureCollectionDto) {
-        try{
-            String json = this.objectMapper.writeValueAsString(greenFeatureCollectionDto);
-            Path datasetFile = Path.of(datasetsPrefixPath);
-            File file = new File(datasetFile.toString(), "kaliningrad_green_WGS84.geojson");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                writer.write(json);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+    public void fillGreenFeatureCollectionByRed(GreenFeatureCollectionDto greenFeatureCollectionDto,
+                                                RedFeatureCollectionDto redFeatureCollectionDto) {
     }
 
 //    public GreenFeaturePropertiesDto checkRedBlueCoordinatesAndSetProperties (Double error, GeometryDto blueGeometry,
