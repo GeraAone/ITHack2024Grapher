@@ -1,7 +1,7 @@
 package com.oneune.grapher.service.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oneune.grapher.service.ResourceFileLoader;
+import com.oneune.grapher.service.ResourceFileService;
 import com.oneune.grapher.store.dto.blue.BlueFeatureCollectionDto;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +16,11 @@ import java.io.File;
 public class BlueFeatureCollectionParsingService {
     private final ObjectMapper objectMapper;
 
-    private final ResourceFileLoader resourceFileLoader;
+    private final ResourceFileService resourceFileService;
 
     public BlueFeatureCollectionDto parseGeoJsonFile(@NonNull String geoJsonFilename) {
 
-        File datasetFile = resourceFileLoader.getDatasetFileFromResources(geoJsonFilename);
+        File datasetFile = resourceFileService.getDatasetFileFromResources(geoJsonFilename);
 
         try {
             return objectMapper.readValue(datasetFile, BlueFeatureCollectionDto.class);
