@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class BlueFeaturePropertiesDto {
-    private Long link_id;
+    private Long linkId;
 }
