@@ -84,6 +84,15 @@ public class GreenMapperService {
                                                 RedFeatureCollectionDto redFeatureCollectionDto) {
     }
 
+    /**
+     *
+     * @param error
+     * @param blueGeometry
+     * @param redFeatureCollectionDto
+     * @return greenFeatureCollectionDto
+     * Comments: method returns required DTO to process in future
+     */
+
     public GreenFeaturePropertiesDto checkRedBlueCoordinatesAndSetProperties(Double error, GeometryDto blueGeometry,
                                                                              RedFeatureCollectionDto redFeatureCollectionDto) {
 
@@ -95,13 +104,15 @@ public class GreenMapperService {
         //первый цикл для прохода по всем дорогам "Red" графа,второй сравнения в каждом с "Blue" графом
         for (int i = 0; i < redFeatureCollectionDto.getFeatures().size(); i++) {
             List<List<Double>> redList = redFeatureCollectionDto.getFeatures().get(i).getGeometry().getCoordinates().get(0);
-            for (int j = 0; j < Math.min(redList.size(), blueList.size()); j++) {
-                if (!(Math.abs(redList.get(j).get(0) - blueList.get(j).get(0)) <= error
-                        && Math.abs(redList.get(j).get(1) - blueList.get(j).get(1)) <= error)) {
-                    flag = false;
-                    break;
+            if(Math.abs(redList.size() - blueList.size()) <=2) {
+                for (int j = 0; j < Math.min(redList.size(), blueList.size()); j++) {
+                    if (!(Math.abs(redList.get(j).get(0) - blueList.get(j).get(0)) <= error && Math.abs(redList.get(j).get(1) - blueList.get(j).get(1)) <= error)) {
+                        flag = false;
+                        break;
+                    }
                 }
             }
+            else flag = false;
             if (flag != false) {
                 redFeatureDtoList.add(redFeatureCollectionDto.getFeatures().get(i));
             }
@@ -111,6 +122,10 @@ public class GreenMapperService {
 //            return modelMapper.map(redFeatureDtoList.get(0), GreenFeaturePropertiesDto.class);
             GreenFeaturePropertiesDto greenFeaturePropertiesDto = new GreenFeaturePropertiesDto();
             greenFeaturePropertiesDto.setRoadName(redFeatureDtoList.get(0).getProperties().getRoadName());
+            greenFeaturePropertiesDto.setId(redFeatureDtoList.get(0).getProperties().getId());
+            greenFeaturePropertiesDto.setFinishM(redFeatureDtoList.get(0).getProperties().getFinishM());
+            greenFeaturePropertiesDto.setStartM(redFeatureDtoList.get(0).getProperties().getStartM());
+            greenFeaturePropertiesDto.setRoadPartId(redFeatureDtoList.get(0).getProperties().getRoadPartId());
             return greenFeaturePropertiesDto;
         } else {
             return null;
